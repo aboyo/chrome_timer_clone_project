@@ -4,6 +4,9 @@ import Grid from "@material-ui/core/Grid";
 
 import TimerTextField from "./TimerTextField";
 
+import { counterState } from "../utils/stateStore";
+import { /*RecoilRoot,*/ useRecoilState } from "recoil";
+
 const useStyles = makeStyles((theme) => {
   return {
     root: {
@@ -19,12 +22,18 @@ const useStyles = makeStyles((theme) => {
 
 export default function TimerContent() {
   const classes = useStyles();
-
+  const [count, setCount] = useRecoilState(counterState);
+  console.log("XDD", count);
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid item>
-          <TimerTextField defaultValue={44} onChange={() => {}} unit="m" />
+          <TimerTextField
+            defaultValue={44}
+            count={count}
+            onChange={() => {}}
+            unit="m"
+          />
         </Grid>
         <Grid item>
           <TimerTextField defaultValue={55} onChange={() => {}} unit="s" />

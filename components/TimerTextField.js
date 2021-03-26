@@ -21,14 +21,15 @@ const useStyles = makeStyles((theme) => {
 });
 
 export default function TimerTextField(props) {
-  const { defaultValue = "00", unit = "s", onChange = null } = props;
-
+  const { defaultValue = "00", unit = "s", onChange = null, count } = props;
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
+  console.log("qqq", count);
   return (
     <InputBase
       defaultValue={defaultValue}
+      value={count}
       className={classes.inputBase}
       classes={{
         input: classes.input,

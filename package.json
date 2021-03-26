@@ -13,6 +13,7 @@
     "next": "10.0.9",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-swipeable-views": "^0.13.9"
+    "react-swipeable-views": "^0.13.9",
+    "recoil": "^0.1.3"
   }
 }

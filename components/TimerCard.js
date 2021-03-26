@@ -9,6 +9,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import TabPanel from "../components/TabPanel";
 import { Divider } from "@material-ui/core";
 
+import { counterState } from "../utils/stateStore";
+import { /*RecoilRoot,*/ useRecoilState } from "recoil";
+
 const useStyles = makeStyles((theme) => {
   return {
     root: {
@@ -36,8 +39,10 @@ const useStyles = makeStyles((theme) => {
 
 export default function TimerCard() {
   const classes = useStyles();
-
+  const [count, setCount] = useRecoilState(counterState);
+  console.log(count);
   return (
+    // <RecoilRoot>
     <Card className={classes.root} variant="outlined">
       <CardContent>
         <TabPanel />
@@ -46,17 +51,32 @@ export default function TimerCard() {
       <CardActions classes={{ spacing: classes.action }}>
         <Grid container spacing={2}>
           <Grid item>
-            <Button className={classes.button} size="small" variant="outlined">
-              START
+            <Button
+              className={classes.button}
+              size="small"
+              variant="outlined"
+              onClick={() => {
+                setCount(count + 1);
+              }}
+            >
+              START+1
             </Button>
           </Grid>
           <Grid item>
-            <Button className={classes.button} size="small" variant="outlined">
-              RESET
+            <Button
+              className={classes.button}
+              size="small"
+              variant="outlined"
+              onClick={() => {
+                setCount(count - 1);
+              }}
+            >
+              RESET-1
             </Button>
           </Grid>
         </Grid>
       </CardActions>
     </Card>
+    // </RecoilRoot>
   );
 }
