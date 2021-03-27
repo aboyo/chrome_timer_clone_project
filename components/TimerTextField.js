@@ -26,7 +26,7 @@ export default function TimerTextField(props) {
   return (
     <InputBase
       value={time}
-      value={time < 10 ? "0" + time : time}
+      // value={time < 10 ? "0" + time : time}
       className={classes.inputBase}
       classes={{
         input: classes.input,
@@ -52,7 +52,8 @@ export default function TimerTextField(props) {
       disabled={disabled}
       // style={{ minWidth: 96, width: value }}
       style={{
-        minWidth: 96,
+        // minWidth: 96,
+        minWidth: 64,
         width: time ? 25 + time.toString().length * 35 : 0,
       }}
     />
