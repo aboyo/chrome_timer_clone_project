@@ -1,16 +1,10 @@
-import { useEffect /*, useState*/ } from "react";
+import { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Divider } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import TimerTextField from "./TimerTextField";
 
-import {
-  mState,
-  sState,
-  actionState,
-  timeState,
-  intervalState,
-} from "../utils/stateStore";
+import { mState, sState, actionState, timeState } from "../utils/stateStore";
 import { useRecoilState } from "recoil";
 
 import { STATUS } from "../utils/constants";
@@ -36,10 +30,9 @@ export default function TimerContent() {
   const [sec, setSec] = useRecoilState(sState);
 
   const [action, setAction] = useRecoilState(actionState);
-  const [intervalObj, setIntervalObj] = useRecoilState(intervalState);
+  const [intervalObj, setIntervalObj] = useState();
 
   useEffect(() => {
-    console.log("action:", action, "time:", time);
     switch (action) {
       case STATUS.PLAY:
         setTime(Number(min) * 60 + Number(sec));
@@ -75,10 +68,13 @@ export default function TimerContent() {
     setMin(0);
     setSec(0);
     setAction(STATUS.PAUSE);
+  }, []);
+
+  useEffect(() => {
     return () => {
       clearInterval(intervalObj);
     };
-  }, []);
+  }, [intervalObj]);
 
   function tick() {
     setTime((prevTotalsecs) => {

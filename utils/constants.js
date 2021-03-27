@@ -4,3 +4,8 @@ export const STATUS = {
   RESET: "RESET",
   RUN: "RUN",
 };
+
+export const PAGE = {
+  TIMER: 0,
+  STOPWATCH: 1,
+};

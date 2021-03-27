@@ -1,5 +1,5 @@
-import { atom, selector } from "recoil";
-import { STATUS } from "./constants";
+import { atom /*, selector*/ } from "recoil";
+import { STATUS, PAGE } from "./constants";
 
 export const timeState = atom({
   key: "time", // 必須唯一，不可有相同的key
@@ -26,9 +26,9 @@ export const sState = atom({
   default: 0,
 });
 
-export const intervalState = atom({
-  key: "interval",
-  default: null,
+export const pageState = atom({
+  key: "page",
+  default: PAGE.TIMER,
 });
 
 // export const sState = selector({

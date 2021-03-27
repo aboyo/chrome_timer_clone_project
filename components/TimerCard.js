@@ -10,10 +10,10 @@ import TabPanel from "../components/TabPanel";
 import { Divider } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 
-import { actionState } from "../utils/stateStore";
-import { useRecoilState } from "recoil";
+import { actionState, mState, sState, pageState } from "../utils/stateStore";
+import { useRecoilState, useRecoilValue } from "recoil";
 
-import { STATUS } from "../utils/constants";
+import { STATUS, PAGE } from "../utils/constants";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme) => {
 export default function TimerCard() {
   const classes = useStyles();
   const [action, setAction] = useRecoilState(actionState);
+  const min = useRecoilValue(mState);
+  const sec = useRecoilValue(sState);
+  const page = useRecoilValue(pageState);
 
   return (
     <Card className={classes.root} variant="outlined">
@@ -63,7 +66,17 @@ export default function TimerCard() {
               size="small"
               variant="outlined"
               onClick={() => {
-                setAction(action === STATUS.PAUSE ? STATUS.PLAY : STATUS.PAUSE);
+                if (page === PAGE.TIMER) {
+                  setAction(
+                    action === STATUS.PAUSE && min + sec !== 0
+                      ? STATUS.PLAY
+                      : STATUS.PAUSE
+                  );
+                } else {
+                  setAction(
+                    action === STATUS.PAUSE ? STATUS.PLAY : STATUS.PAUSE
+                  );
+                }
               }}
             >
               {/* START */}

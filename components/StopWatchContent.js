@@ -7,12 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TimerTextField from "./TimerTextField";
 import { STATUS } from "../utils/constants";
 
-import {
-  sState,
-  actionState,
-  timeState,
-  intervalState,
-} from "../utils/stateStore";
+import { sState, actionState, timeState } from "../utils/stateStore";
 import { useRecoilState } from "recoil";
 
 const useStyles = makeStyles((theme) => {
@@ -31,7 +26,7 @@ export default function StopWatchContent() {
   const [action, setAction] = useRecoilState(actionState);
 
   const [millisecond, setMillisecond] = useState("00");
-  const [intervalObj, setIntervalObj] = useRecoilState(intervalState);
+  const [intervalObj, setIntervalObj] = useState();
 
   useEffect(() => {
     switch (action) {
@@ -69,11 +64,13 @@ export default function StopWatchContent() {
     setSec(0);
     setMillisecond("00");
     setAction(STATUS.PAUSE);
+  }, []);
+
+  useEffect(() => {
     return () => {
-      console.log(intervalObj);
       clearInterval(intervalObj);
     };
-  }, []);
+  }, [intervalObj]);
 
   return (
     <Grid container spacing={1} alignItems="baseline">
