@@ -1,5 +1,3 @@
-// import { useEffect, useState } from "react";
-
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -12,11 +10,8 @@ import TabPanel from "../components/TabPanel";
 import { Divider } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 
-import { actionState, timeState } from "../utils/stateStore";
-import {
-  useRecoilState /*, useSetRecoilState */,
-  useRecoilValue,
-} from "recoil";
+import { actionState } from "../utils/stateStore";
+import { useRecoilState } from "recoil";
 
 import { STATUS } from "../utils/constants";
 
@@ -53,7 +48,6 @@ const useStyles = makeStyles((theme) => {
 export default function TimerCard() {
   const classes = useStyles();
   const [action, setAction] = useRecoilState(actionState);
-  const time = useRecoilValue(timeState);
 
   return (
     <Card className={classes.root} variant="outlined">

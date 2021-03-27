@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => {
       width: "100%",
       ...theme.typography.h2,
       fontWeight: 400,
+      textAlign: "right",
     },
     disabled: {
       color: "black",
@@ -35,7 +36,6 @@ export default function TimerTextField(props) {
       onChange={(event) => {
         // setValue(25 + event.target.value.length * 35);
         let v = event.target.value;
-        console.log(v);
 
         if (onChange) {
           onChange(Number(v));

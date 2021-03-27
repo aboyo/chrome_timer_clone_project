@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect /*, useState*/ } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Divider } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import TimerTextField from "./TimerTextField";
 
-import { mState, sState, actionState, timeState } from "../utils/stateStore";
+import {
+  mState,
+  sState,
+  actionState,
+  timeState,
+  intervalState,
+} from "../utils/stateStore";
 import { useRecoilState } from "recoil";
 
 import { STATUS } from "../utils/constants";
@@ -30,7 +36,7 @@ export default function TimerContent() {
   const [sec, setSec] = useRecoilState(sState);
 
   const [action, setAction] = useRecoilState(actionState);
-  const [intervalObj, setIntervalObj] = useState();
+  const [intervalObj, setIntervalObj] = useRecoilState(intervalState);
 
   useEffect(() => {
     console.log("action:", action, "time:", time);
@@ -65,14 +71,12 @@ export default function TimerContent() {
   }, [action, time]);
 
   useEffect(() => {
+    setTime(0);
+    setMin(0);
+    setSec(0);
+    setAction(STATUS.PAUSE);
     return () => {
-      // component will unmount
-      // reset
       clearInterval(intervalObj);
-      setTime(0);
-      setMin(0);
-      setSec(0);
-      setAction(STATUS.PAUSE);
     };
   }, []);
 
@@ -105,7 +109,11 @@ export default function TimerContent() {
             time={sec}
             unit="s"
             onChange={(value) => {
-              setSec(value);
+              if (value > 59) {
+                setSec(59);
+              } else {
+                setSec(value);
+              }
             }}
             disabled={action === STATUS.RUN ? true : false}
           />
