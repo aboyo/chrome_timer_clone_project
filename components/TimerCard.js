@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -10,9 +10,15 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import TabPanel from "../components/TabPanel";
 import { Divider } from "@material-ui/core";
+import { grey } from "@material-ui/core/colors";
 
-import { timeState, mState, sState /*actionState*/ } from "../utils/stateStore";
-import { useRecoilState } from "recoil";
+import { actionState, timeState } from "../utils/stateStore";
+import {
+  useRecoilState /*, useSetRecoilState */,
+  useRecoilValue,
+} from "recoil";
+
+import { STATUS } from "../utils/constants";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -32,6 +38,11 @@ const useStyles = makeStyles((theme) => {
           color: theme.palette.getContrastText(theme.palette.primary.main),
         },
       },
+      "&:disabled": {
+        "& .MuiButton-label": {
+          color: grey[400],
+        },
+      },
     },
     action: {
       padding: theme.spacing(2),
@@ -41,35 +52,8 @@ const useStyles = makeStyles((theme) => {
 
 export default function TimerCard() {
   const classes = useStyles();
-  const [time, setTime] = useRecoilState(timeState);
-  // const [action, setAction] = useRecoilState(actionState);
-
-  const [min, setMin] = useRecoilState(mState);
-  const [sec, setSec] = useRecoilState(sState);
-
-  const [play, setPlay] = useState(false);
-  const [intervalObj, setIntervalObj] = useState();
-
-  useEffect(() => {
-    if (time > 0 && !play) {
-      setPlay(true);
-      let interval = setInterval(tick, 1000);
-      setIntervalObj(interval);
-    }
-    setMin(Math.floor(time / 60));
-    setSec(time % 60);
-  }, [time]);
-
-  function tick() {
-    setTime((prevTotalsecs) => {
-      if (prevTotalsecs === 0) {
-        clearInterval(intervalObj);
-        return prevTotalsecs;
-      } else {
-        return prevTotalsecs - 1;
-      }
-    });
-  }
+  const [action, setAction] = useRecoilState(actionState);
+  const time = useRecoilValue(timeState);
 
   return (
     <Card className={classes.root} variant="outlined">
@@ -85,11 +69,11 @@ export default function TimerCard() {
               size="small"
               variant="outlined"
               onClick={() => {
-                // set total time
-                setTime(Number(min) * 60 + Number(sec));
+                setAction(action === STATUS.PAUSE ? STATUS.PLAY : STATUS.PAUSE);
               }}
             >
-              START
+              {/* START */}
+              {action === STATUS.PAUSE ? "START" : "PAUSE"}
             </Button>
           </Grid>
           <Grid item>
@@ -97,7 +81,10 @@ export default function TimerCard() {
               className={classes.button}
               size="small"
               variant="outlined"
-              onClick={() => {}}
+              disabled={action === STATUS.RUN ? true : false}
+              onClick={() => {
+                setAction(STATUS.RESET);
+              }}
             >
               RESET
             </Button>

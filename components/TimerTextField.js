@@ -1,4 +1,3 @@
-import { useState } from "react";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputBase from "@material-ui/core/InputBase";
 import Typography from "@material-ui/core/Typography";
@@ -21,23 +20,25 @@ const useStyles = makeStyles((theme) => {
 });
 
 export default function TimerTextField(props) {
-  const { /*defaultValue = "00",*/ unit = "s", onChange = null, time } = props;
+  const { unit = "s", onChange = null, time, disabled = false } = props;
   const classes = useStyles();
-  const [value, setValue] = useState(0);
 
   return (
     <InputBase
-      // defaultValue={defaultValue}
       value={time}
+      value={time < 10 ? "0" + time : time}
       className={classes.inputBase}
       classes={{
         input: classes.input,
         disabled: classes.disabled,
       }}
       onChange={(event) => {
-        setValue(25 + event.target.value.length * 35);
+        // setValue(25 + event.target.value.length * 35);
+        let v = event.target.value;
+        console.log(v);
+
         if (onChange) {
-          onChange(event.target.value);
+          onChange(Number(v));
         }
       }}
       disabled={onChange ? false : true}
@@ -48,7 +49,12 @@ export default function TimerTextField(props) {
           </Typography>
         </InputAdornment>
       }
-      style={{ minWidth: 96, width: value }}
+      disabled={disabled}
+      // style={{ minWidth: 96, width: value }}
+      style={{
+        minWidth: 96,
+        width: time ? 25 + time.toString().length * 35 : 0,
+      }}
     />
   );
 }

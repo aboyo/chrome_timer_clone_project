@@ -16,9 +16,24 @@ export const mState = atom({
   default: 0,
 });
 
-export const sState = atom({
+export const secState = atom({
   key: "sec",
   default: 0,
+});
+
+export const sState = selector({
+  key: "secState",
+  get: ({ get }) => {
+    return get(secState);
+  },
+  set: ({ set }, newValue) => {
+    if (newValue > 59) {
+      set(secState, 59);
+    } else {
+      // set(secState, Number(newValue));
+      set(secState, newValue);
+    }
+  },
 });
 
 // export const startTimeState = selector({
