@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -11,8 +11,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import TabPanel from "../components/TabPanel";
 import { Divider } from "@material-ui/core";
 
-import { timeState, switchState, startTimeState } from "../utils/stateStore";
-import { /*RecoilRoot,*/ useRecoilState } from "recoil";
+import { timeState, mState, sState /*actionState*/ } from "../utils/stateStore";
+import { useRecoilState } from "recoil";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -41,24 +41,37 @@ const useStyles = makeStyles((theme) => {
 
 export default function TimerCard() {
   const classes = useStyles();
-  // const [time, setTime] = useRecoilState(timeState);
-  const [time, setTime] = useRecoilState(startTimeState);
-  const [switchStat, setSwtichStat] = useRecoilState(switchState);
+  const [time, setTime] = useRecoilState(timeState);
+  // const [action, setAction] = useRecoilState(actionState);
 
-  console.log(switchStat, time);
+  const [min, setMin] = useRecoilState(mState);
+  const [sec, setSec] = useRecoilState(sState);
+
+  const [play, setPlay] = useState(false);
+  const [intervalObj, setIntervalObj] = useState();
 
   useEffect(() => {
-    if (switchStat) {
-      setInterval(testTime, 1000);
+    if (time > 0 && !play) {
+      setPlay(true);
+      let interval = setInterval(tick, 1000);
+      setIntervalObj(interval);
     }
-  }, [switchStat]);
+    setMin(Math.floor(time / 60));
+    setSec(time % 60);
+  }, [time]);
 
-  function testTime() {
-    setTime((prev) => prev - 1);
+  function tick() {
+    setTime((prevTotalsecs) => {
+      if (prevTotalsecs === 0) {
+        clearInterval(intervalObj);
+        return prevTotalsecs;
+      } else {
+        return prevTotalsecs - 1;
+      }
+    });
   }
 
   return (
-    // <RecoilRoot>
     <Card className={classes.root} variant="outlined">
       <CardContent>
         <TabPanel />
@@ -72,7 +85,8 @@ export default function TimerCard() {
               size="small"
               variant="outlined"
               onClick={() => {
-                setSwtichStat(!switchStat);
+                // set total time
+                setTime(Number(min) * 60 + Number(sec));
               }}
             >
               START
@@ -91,6 +105,5 @@ export default function TimerCard() {
         </Grid>
       </CardActions>
     </Card>
-    // </RecoilRoot>
   );
 }
