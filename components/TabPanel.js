@@ -13,10 +13,8 @@ import TimerIcon from "@material-ui/icons/Timer";
 import TimerContent from "./TimerContent";
 import StopWatchContent from "./StopWatchContent";
 
-import { actionState, mState, sState, pageState } from "../utils/stateStore";
-import { useRecoilState, useRecoilValue } from "recoil";
-
-import { PAGE } from "../utils/constants";
+import { pageState } from "../utils/stateStore";
+import { useRecoilState } from "recoil";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,8 +51,6 @@ function a11yProps(index) {
 
 export default function FullWidthTabs() {
   const theme = useTheme();
-  // const [value, setValue] = React.useState(0);
-  // const [value, setValue] = React.useState(PAGE.TIMER);
   const [value, setValue] = useRecoilState(pageState);
 
   const handleChange = (event, newValue) => {
