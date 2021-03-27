@@ -4,8 +4,12 @@ import Grid from "@material-ui/core/Grid";
 
 import TimerTextField from "./TimerTextField";
 
-import { /*timeState,*/ splitTimeState } from "../utils/stateStore";
-import { /*RecoilRoot, useRecoilState,*/ useRecoilValue } from "recoil";
+import {
+  /*timeState,*/ splitTimeState,
+  minState,
+  secState,
+} from "../utils/stateStore";
+import { /*RecoilRoot,*/ useRecoilState, useRecoilValue } from "recoil";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -22,18 +26,31 @@ const useStyles = makeStyles((theme) => {
 
 export default function TimerContent() {
   const classes = useStyles();
-  // const [time, setTime] = useRecoilState(timeState);
-  const splitTime = useRecoilValue(splitTimeState);
-  console.log(splitTime);
+  const [min, setMin] = useRecoilState(minState);
+  const [sec, setSec] = useRecoilState(secState);
+
+  console.log(min, sec);
 
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid item>
-          <TimerTextField time={splitTime.minute} unit="m" />
+          <TimerTextField
+            time={min}
+            unit="m"
+            onChange={(value) => {
+              setMin(value);
+            }}
+          />
         </Grid>
         <Grid item>
-          <TimerTextField time={splitTime.second} unit="s" />
+          <TimerTextField
+            time={sec}
+            unit="s"
+            onChange={(value) => {
+              setSec(value);
+            }}
+          />
         </Grid>
       </Grid>
       <Divider />

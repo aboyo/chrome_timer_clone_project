@@ -1,4 +1,4 @@
-// import { useEffect } from "react";
+import { useEffect } from "react";
 
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TabPanel from "../components/TabPanel";
 import { Divider } from "@material-ui/core";
 
-import { timeState } from "../utils/stateStore";
+import { timeState, switchState, startTimeState } from "../utils/stateStore";
 import { /*RecoilRoot,*/ useRecoilState } from "recoil";
 
 const useStyles = makeStyles((theme) => {
@@ -41,12 +41,22 @@ const useStyles = makeStyles((theme) => {
 
 export default function TimerCard() {
   const classes = useStyles();
-  const [time, setTime] = useRecoilState(timeState);
-  console.log(time);
+  // const [time, setTime] = useRecoilState(timeState);
+  const [time, setTime] = useRecoilState(startTimeState);
+  const [switchStat, setSwtichStat] = useRecoilState(switchState);
+
+  console.log(switchStat, time);
+
+  useEffect(() => {
+    if (switchStat) {
+      setInterval(testTime, 1000);
+    }
+  }, [switchStat]);
 
   function testTime() {
     setTime((prev) => prev - 1);
   }
+
   return (
     // <RecoilRoot>
     <Card className={classes.root} variant="outlined">
@@ -62,11 +72,10 @@ export default function TimerCard() {
               size="small"
               variant="outlined"
               onClick={() => {
-                setTime(320);
-                setInterval(testTime, 1000);
+                setSwtichStat(!switchStat);
               }}
             >
-              START+1
+              START
             </Button>
           </Grid>
           <Grid item>
@@ -76,7 +85,7 @@ export default function TimerCard() {
               variant="outlined"
               onClick={() => {}}
             >
-              RESET-1
+              RESET
             </Button>
           </Grid>
         </Grid>

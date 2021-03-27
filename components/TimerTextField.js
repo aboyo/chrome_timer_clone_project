@@ -36,7 +36,9 @@ export default function TimerTextField(props) {
       }}
       onChange={(event) => {
         setValue(25 + event.target.value.length * 35);
-        onChange(event.target.value);
+        if (onChange) {
+          onChange(event.target.value);
+        }
       }}
       disabled={onChange ? false : true}
       endAdornment={
