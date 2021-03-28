@@ -18,7 +18,7 @@ import { STATUS, PAGE } from "../utils/constants";
 const useStyles = makeStyles((theme) => {
   return {
     root: {
-      minWidth: 275,
+      width: "100%",
       "&> .MuiCardContent-root": {
         padding: 0,
       },

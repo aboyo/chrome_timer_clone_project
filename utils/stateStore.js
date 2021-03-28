@@ -11,7 +11,7 @@ export const actionState = atom({
   default: STATUS.PAUSE,
 });
 
-/*export*/ const minState = atom({
+const minState = atom({
   key: "minState",
   default: 0,
 });
@@ -30,12 +30,7 @@ export const mState = selector({
   },
 });
 
-// /*export*/ const secState = atom({
-//   key: "sec",
-//   default: 0,
-// });
-
-/*export*/ const secState = atom({
+const secState = atom({
   key: "secState",
   default: 0,
 });
@@ -58,45 +53,3 @@ export const pageState = atom({
   key: "page",
   default: PAGE.TIMER,
 });
-
-// export const startTimeState = selector({
-//   key: "startTime",
-//   get: ({ get }) => {
-//     console.log(get(timeState));
-//     return get(timeState);
-//   },
-//   set: ({ set, get }, newValue) => {
-//     set(timeState, newValue);
-
-//     let m = Math.floor(get(timeState) / 60);
-//     let s = get(timeState) % 60;
-//     set(minState, m);
-//     set(secState, s);
-//   },
-// });
-
-// export const minState = selector({
-//   key: "mState",
-//   get: ({ get }) => {
-//     return get(mState);
-//   },
-//   set: ({ set, get }, newValue) => {
-//     set(mState, Number(newValue));
-//     if (newValue) {
-//       set(timeState, Number(newValue) * 60 + Number(get(sState)));
-//     }
-//   },
-// });
-
-// export const secState = selector({
-//   key: "sState",
-//   get: ({ get }) => {
-//     return get(sState);
-//   },
-//   set: ({ set, get }, newValue) => {
-//     set(sState, Number(newValue));
-//     if (newValue) {
-//       set(timeState, Number(get(mState)) * 60 + Number(newValue));
-//     }
-//   },
-// });
