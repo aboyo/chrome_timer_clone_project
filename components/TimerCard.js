@@ -80,7 +80,7 @@ export default function TimerCard() {
               }}
             >
               {/* START */}
-              {action === STATUS.PAUSE ? "START" : "PAUSE"}
+              {action !== STATUS.PAUSE ? "PAUSE" : "START"}
             </Button>
           </Grid>
           <Grid item>

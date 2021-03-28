@@ -1,4 +1,4 @@
-import { atom /*, selector*/ } from "recoil";
+import { atom, selector } from "recoil";
 import { STATUS, PAGE } from "./constants";
 
 export const timeState = atom({
@@ -11,9 +11,23 @@ export const actionState = atom({
   default: STATUS.PAUSE,
 });
 
-export const mState = atom({
-  key: "min",
+/*export*/ const minState = atom({
+  key: "minState",
   default: 0,
+});
+
+export const mState = selector({
+  key: "min",
+  get: ({ get }) => {
+    return get(minState);
+  },
+  set: ({ set }, newValue) => {
+    if (isNaN(newValue)) {
+      set(minState, 0);
+    } else {
+      set(minState, newValue);
+    }
+  },
 });
 
 // /*export*/ const secState = atom({
@@ -21,31 +35,29 @@ export const mState = atom({
 //   default: 0,
 // });
 
-export const sState = atom({
-  key: "sec",
+/*export*/ const secState = atom({
+  key: "secState",
   default: 0,
+});
+
+export const sState = selector({
+  key: "sec",
+  get: ({ get }) => {
+    return get(secState);
+  },
+  set: ({ set }, newValue) => {
+    if (isNaN(newValue)) {
+      set(secState, 0);
+    } else {
+      set(secState, newValue);
+    }
+  },
 });
 
 export const pageState = atom({
   key: "page",
   default: PAGE.TIMER,
 });
-
-// export const sState = selector({
-//   key: "secState",
-//   get: ({ get }) => {
-//     return get(secState);
-//   },
-//   set: ({ set }, newValue) => {
-//     // if (newValue > 59) {
-//     //   set(secState, 59);
-//     // } else {
-//     //   // set(secState, Number(newValue));
-//     //   set(secState, newValue);
-//     // }
-//     set(secState, newValue);
-//   },
-// });
 
 // export const startTimeState = selector({
 //   key: "startTime",
