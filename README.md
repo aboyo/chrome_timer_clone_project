@@ -1,4 +1,4 @@
-# chrome timer
+# chrome timer clone
 
 實作 Google Chrome 中 Timer Widget，使用`React.js`開發並採用`Next.js` framework 實作，狀態管理部分使用`Recoil.js`，UI 部分使用了 [Material-UI library](https://material-ui.com/ "Material-UI library")。
 
